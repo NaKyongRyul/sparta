@@ -15,3 +15,5 @@ for tr in trs:
     title = tr.select_one('td.tm > div > span').text #---> 여기서 span은 알아서 적어야 하는건가요?
     rank = tr.select_one('th').text
     print(rank, title)
+
+print('aaaa')
