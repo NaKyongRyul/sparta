@@ -10,4 +10,4 @@ target_star = target_movie['star']
 db.movies.update_many({'star': target_star}, {'$set': {'star': '0'}})
 
 
-print('hello')
+print('hello github')
