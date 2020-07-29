@@ -14,4 +14,6 @@ for tr in tr_list:
         name = title.text #--> <>  <> 안에 값을 가져오는거는 text 아닌거는 속성이라서 ['']안에 넣기
 
 
+print('zzzzzz')
+
 
