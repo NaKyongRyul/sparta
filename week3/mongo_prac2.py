@@ -34,3 +34,6 @@ for movie in movies:
             'star': star  # DB에는 숫자처럼 생긴 문자열 형태로 저장됩니다.
         }
         db.movies.insert_one(doc)
+
+
+        print('hi')
