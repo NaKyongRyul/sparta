@@ -17,7 +17,7 @@ for tr in trs:
     title = tr.select_one('td.info > a.title.ellipsis').text.strip()
     rank = tr.select_one('td.number').text[0:2].strip()
     singer = tr.select_one('td.info > a.artist.ellipsis').text
-    
+
 
     doc = {
         'rank': rank,

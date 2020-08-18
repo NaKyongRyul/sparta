@@ -70,7 +70,6 @@
                 success: function(response){
                     let rate = response[1]['rate']
                     $('#aa').append(rate)
-
                 }
             })
         });
@@ -88,9 +87,10 @@
                 alert('주소를 입력해주세요')
             }else if(phone == '') {
                 alert('휴대폰번호를 입력해주세요')
-            }else
-                alert('주문이 완료되었습니다')
+            }
         }
+
+
 
     </script>
 </head>

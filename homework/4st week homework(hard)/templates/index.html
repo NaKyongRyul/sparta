@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <title>Hello, world!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        .image {
+            background-image: url("https://www.conscious-skincare.com/wp-content/uploads/2016/02/glc-candle-lit-with-new-gift-box.jpg");
+            background-size: cover;
+            background-position: center;
+            width: 500px;
+            height: 300px;
+
+        }
+        .price {
+            font-size: 16px;
+        }
+        .info {
+            width: 500px;
+            font-size: 14px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .order {
+            width: 500px;
+        }
+        .btn {
+            display: block;
+            margin: auto;
+        }
+        .wrap {
+            width: 500px;
+            margin: auto;
+        }
+        .orderList {
+            margin-top: 100px;
+            margin: auto;
+        }
+
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function(response){
+                    let rate = response[1]['rate']
+                    $('#won').append(rate)
+                }
+            })
+        });
+
+        function makeList(){
+            let name =  $('#name').val()
+            let count = $('#count').val()
+            let address = $('#address').val()
+            let phone = $('#phone').val()
+            if (name == '') {
+                alert('이름을 입력해주세요')
+                return
+            } else if (count == '') {
+                alert('수량을 입력해주세요')
+                return
+            } else if (address == '') {
+                alert('주소를 입력해주세요')
+                return
+            } else if (phone == '') {
+                alert('휴대폰번호를 입력해주세요')
+                return
+            }
+            $.ajax({
+                    type: "POST",
+                    url: "/order",
+                    data: {
+                        'name_give': name,
+                        'count_give': count,
+                        'address_give': address,
+                        'phone_give': phone
+                    },
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            alert(response['msg'])
+                            window.location.reload()
+                        }
+                    }
+                })
+        }
+
+        $(document).ready(function () {
+            $("#orders-box").empty();
+            showOrder();
+        });
+
+        function showOrder() {
+            $.ajax({
+                type: "GET",
+                url: "/order",
+                data: {},
+                success: function(response){
+                    let candle_info = response['orders']
+                    for (let i = 0; i < candle_info.length; i++) {
+                        let name = candle_info[i]['name']
+                        let count = candle_info[i]['count']
+                        let address = candle_info[i]['address']
+                        let phone = candle_info[i]['phone']
+                        let temp_html = `<tr>
+                                            <td>${name}</td>
+                                            <td>${count}</td>
+                                            <td>${address}</td>
+                                            <td>${phone}</td>
+                                        </tr>`
+                        $("#orders-box").append(temp_html)
+
+
+                    }
+                }
+            })
+
+        }
+    </script>
+
+</head>
+<body>
+
+
+<div class="wrap">
+
+    <div class = 'image'></div>
+    <div class="info">
+        <h1>양초를 팝니다   <span class = 'price'> 가격: 3,000 원 / 개</span></h1>
+        <p>이 양초는 사실 특별한 힘을 가지고 있어요. 양초를 켜고 소원을 빌면 짜자잔 뭐든지 이뤄지게 된답니다. 하나 사가세요! 대나무 향이 아주 좋아요</p>
+        <p id="won">달러-원 환율: </p>
+    </div>
+    <div id="order-box" class="order">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">주문자 이름</span>
+            </div>
+            <input id="name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="count">수량</label>
+            </div>
+            <select class="custom-select" id="count">
+                <option selected>-- 수량을 선택하세요 --</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">주소</span>
+            </div>
+            <input id="address"  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">전화번호</span>
+            </div>
+            <input id="phone" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <button onclick="makeList()" type="button" class="btn btn-primary">주문하기</button>
+    </div>
+
+<div class="orderList">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">이름</th>
+            <th scope="col">수량</th>
+            <th scope="col">주소</th>
+            <th scope="col">전화번호</th>
+        </tr>
+        </thead>
+        <tbody id="orders-box">
+        <tr>
+            <td>홍길동</td>
+            <td>0</td>
+            <td>땡땡아파트</td>
+            <td>010-0000-0000</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <title>나만의 쇼핑몰</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        .price {
+            font-size: 16px;
+        }
+
+        .image {
+            background-image: url("https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQfv78c38RsihZ4R0_ckTL1Behul55rVR1mEkHI6DTo1hc6NI7CfFdlFhld0JqHNmIDYMijh1zVcA&usqp=CAc");
+            background-size: cover;
+            background-position: center;
+            width: 400px;
+            height: 350px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: block;
+            margin: auto;
+        }
+
+        .wrap {
+            width: 400px;
+            margin: auto;
+        }
+
+        .list {
+            margin-top: 30px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('#list').empty()
+            showOrder()
+        });
+
+        function makeOrder() {
+            let name = $('#name').val()
+            let count = $('#count').val()
+            let address = $('#address').val()
+            let phone = $('#phone').val()
+            if (name == '') {
+                alert('이름을 입력해주세요')
+            } else if (count == '--수량을 선택하세요--') {
+                alert('수량을 선택해주세요')
+            } else if (address == '') {
+                alert('주소를 입력해주세요')
+            } else if (phone == '') {
+                alert('번호를 입력해주세요')
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/order",
+                    data: {
+                        'name_give': name,
+                        'count_give': count,
+                        'address_give': address,
+                        'phone_give': phone
+                    },
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert(response["msg"]);
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+        }
+
+        function showOrder() {
+            $.ajax({
+                type: "GET",
+                url: "/order",
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let orders = response["orders"];
+                        for (let i = 0; i < orders.length; i++) {
+                            let name = orders[i]['name']
+                            let count = orders[i]['count']
+                            let address = orders[i]['address']
+                            let phone = orders[i]['phone']
+                            let temp_html = `<tr>
+                                                <th scope="row">${name}</th>
+                                                <td>${count}</td>
+                                                <td>${address}</td>
+                                                <td>${phone}</td>
+                                            </tr>`
+                            $('#list').append(temp_html)
+                        }
+
+                    }
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <div class="image"></div>
+    <h1>시계 팝니다 <span class="price">개수/개: 300,000원</span></h1>
+    <p>이 시계는 티쏘 브랜드 중 가장 많은 사람들이 사랑하는 종류로써 시계를 입문하거나 처음 접하신 분들이 부담없이 착용하는 시계입니다</p>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">이름</span>
+        </div>
+        <input id="name" type="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-default">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">수량</label>
+        </div>
+        <select id="count" class="custom-select" id="inputGroupSelect01">
+            <option selected>--수량을 선택하세요--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">주소</span>
+        </div>
+        <input id="address" type="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-default">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">전화번호</span>
+        </div>
+        <input id="phone" type="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-default">
+    </div>
+    <button onclick="makeOrder()" type="button" class="btn btn-primary">주문하기</button>
+    <div class="list">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">이름</th>
+                <th scope="col">수량</th>
+                <th scope="col">주소</th>
+                <th scope="col">전화번호</th>
+            </tr>
+            </thead>
+            <tbody id="list">
+            <tr>
+                <th scope="row">홍길동</th>
+                <td>0</td>
+                <td>땡땡</td>
+                <td>010-0000-0000</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>
