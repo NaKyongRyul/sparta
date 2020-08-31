@@ -9,9 +9,9 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
@@ -25,6 +25,7 @@
             text-align: center;
             margin-top: 40px;
         }
+
         .cards {
             height: 600px;
             display: flex;
@@ -34,92 +35,235 @@
             justify-content: space-evenly; /* 위아래 */
             align-content: space-evenly; /* 양옆 */
         }
+
         .card {
             height: 250px;
         }
+
         .card-title {
             display: flex;
             font-size: 14px;
         }
+
         .key {
             margin-left: auto;
         }
+
         .btn {
             display: block;
             margin: auto auto 20px auto;
         }
+
+        .detail {
+            margin-right: 0px;
+            margin-bottom: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+        }
+
         body {
             background-image: url("https://previews.123rf.com/images/draganae/draganae1612/draganae161200392/71426772-%EB%B2%88%EA%B0%9C-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EB%B2%A1%ED%84%B0.jpg");
             background-position: center;
             background-size: 100% 100%;
         }
 
-    /* img 위쪽에 빈칸이 있는데 body로 전부 감싸지고 있어서 이유는 모르겠음
-       그래서 body로 전체 img를 감싼다*/
-    </style>
 
+        /* img 위쪽에 빈칸이 있는데 body로 전부 감싸지고 있어서 이유는 모르겠음
+           그래서 body로 전체 img를 감싼다*/
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('#show').html("");
+            showMeeting();
+        });
+
+        function showMeeting() {
+            $.ajax({
+                type: "GET",
+                url: "/meeting",
+                data: {},
+                success: function (response) {
+                    if (response["result"] === "success") {
+                        let meetings = response["all_meetings"]
+                        for (let i = 0; i < meetings.length; i++) {
+                            let title = meetings[i]['title']
+                            let number = meetings[i]['number']
+                            let place = meetings[i]['place']
+                            let time = meetings[i]['time']
+                            let desc = meetings[i]['desc']
+                            let todo = meetings[i]['todo']
+                            let keyword = meetings[i]['keyword']
+                            let id = meetings[i]['id']
+                            let temp_html = `<div class="card" style="width: 18rem;">
+                                                <div class="card-body">
+                                                <p name = pw2>${number}</p>
+                                                    <h5 id="time" class="card-title">${time} <span id="keyword" class="key">#${keyword}</span></h5>
+                                                    <h6 style="margin-top: 20px" id="place" class="card-subtitle mb-2 text-muted">장소:${place}</h6>
+                                                    <p style="margin-top: 18px" id="title" class="card-text">${title}</p>
+                                                    <p  id="desc">${desc}</p>
+                                                    <button onclick="showModal('${title}', '${place}', '${time}', '${keyword}', '${todo}', '${desc}')" type="button" class="btn detail" data-toggle="modal" data-target="#test" data-meeting="${meetings[i]}">+</button>
+                                                </div>
+                                            </div>`
+                            $('#cards').append(temp_html)
+                        }
+                    }
+                }
+            })
+        }
+
+
+        function showModal(title, place, time, todo, desc, keyword) {
+            $('#title').text(title);
+            $('#place').text(place);
+            $('#time').text(time);
+            $('#todo').text(todo);
+            $('#keyword').text(keyword);
+            $('#desc').text(desc);
+            $('#test').modal('show');
+        }
+
+
+    </script>
 </head>
 <body>
-<div class="img">
-    <h1 class="site_title">땡땡땡 대학 번개 모임</h1>
-    <div class="cards">
 
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">20-08-13 20:00 <span class="key">#반려견</span></h5>
-                <h6 class="card-subtitle mb-2 text-muted">장소: <span class="place">00카페</span></h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+
+<h1 class="site_title">땡땡땡 대학 번개 모임</h1>
+<div id="cards" class="cards">
+
+
+    <div class="modal fade" id="test" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">상세 내용</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div style="display: flex">
+                        <h4 id="time"></h4>
+                        <h4 id="todo" style="margin-left:350px"></h4>
+                    </div>
+                    <div style="display: flex">
+                        <h3 style="margin-top: 24px">장소:</h3>
+                        <h3 id="place" style="margin-top: 25px"></h3>
+                    </div>
+                    <div style="display: flex; margin-top: 25px">
+                        <h3>제목:<h3 id="title"></h3></h3>
+                    </div>
+                    <h3 id="keyword" style="margin-top: 25px"></h3>
+                    <h3 id="desc" style="margin-top: 30px"></h3>
+                </div>
+
+                <div id="fix" class="modal-footer">
+                    <button onclick="deleteStar()" type="button" class="btn btn-secondary">삭제하기</button>
+                    <button   type="button" class="btn btn-primary">수정하기</button>
+                </div>
             </div>
         </div>
     </div>
-    <a href="/next">
-        <button type="button" class="btn btn-primary">모임 생성하기</button>
-    </a>
+
+<!--    <script>-->
+
+<!--         function deleteStar(id) {-->
+
+<!--            $.ajax({-->
+<!--                type: 'POST',-->
+<!--                url: '/api/delete',-->
+<!--                data: {-->
+<!--                    'id': id-->
+<!--                },-->
+<!--                success: function (response) {-->
+<!--                    if (response['result'] == 'success') {-->
+<!--                        let msg = response['msg'];-->
+<!--                        alert(msg);-->
+<!--                        window.location.reload()-->
+<!--                    }-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    </script>-->
+
+
+
+    <script>
+        var fix = document.getElementById("fix");
+        fix.addEventListener("click", password);
+
+        function password() {
+            var realPW = "<?php echo $pw ?>";
+            var pword = prompt("비밀번호를 입력해주세요:");
+            if (realPW == pword) {
+
+            }
+        }
+    </script>
+
+
+    <!--        <div class="card" style="width: 18rem;">-->
+    <!--            <div class="card-body">-->
+    <!--                <h5 id="time" class="card-title">20-09-02 18:30<span id="keyword" class="key">반려견</span></h5>-->
+    <!--                <h6 id="place" class="place">세종카페</h6>-->
+    <!--                <p id="title" class="title">견주 모여라</p>-->
+    <!--                <p id="desc">강아지를 사랑하는 사람들만</p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="card" style="width: 18rem;">-->
+    <!--            <div class="card-body">-->
+    <!--                <h5 class="card-title">Card title</h5>-->
+    <!--                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+    <!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+    <!--                    card's content.</p>-->
+    <!--                <a href="#" class="card-link">Card link</a>-->
+    <!--                <a href="#" class="card-link">Another link</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="card" style="width: 18rem;">-->
+    <!--            <div class="card-body">-->
+    <!--                <h5 class="card-title">Card title</h5>-->
+    <!--                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+    <!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+    <!--                    card's content.</p>-->
+    <!--                <a href="#" class="card-link">Card link</a>-->
+    <!--                <a href="#" class="card-link">Another link</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="card" style="width: 18rem;">-->
+    <!--            <div class="card-body">-->
+    <!--                <h5 class="card-title">Card title</h5>-->
+    <!--                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+    <!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+    <!--                    card's content.</p>-->
+    <!--                <a href="#" class="card-link">Card link</a>-->
+    <!--                <a href="#" class="card-link">Another link</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="card" style="width: 18rem;">-->
+    <!--            <div class="card-body">-->
+    <!--                <h5 class="card-title">Card title</h5>-->
+    <!--                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+    <!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+    <!--                    card's content.</p>-->
+    <!--                <a href="#" class="card-link">Card link</a>-->
+    <!--                <a href="#" class="card-link">Another link</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="card" style="width: 18rem;">-->
+    <!--            <div class="card-body">-->
+    <!--                <h5 class="card-title">Card title</h5>-->
+    <!--                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+    <!--                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the-->
+    <!--                    card's content.</p>-->
+    <!--                <a href="#" class="card-link">Card link</a>-->
+    <!--                <a href="#" class="card-link">Another link</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+</div>
+<a href="/create">
+    <button type="button" class="btn btn-primary">모임 생성하기</button>
+</a>
 
 </div>
 </body>

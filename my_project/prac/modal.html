@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            addItems();
+        });
+
+        function addItems() {
+            for (let i = 0; i < 10; i++) {
+                let name = 'name' + i;
+                let age = i;
+                console.log(name);
+                let tmpHtml = `<li>${i} : <button onclick="showModal('${name}', ${age})">show modal</button></li>`;
+                $('#wrap').append(tmpHtml);
+            }
+        }
+
+        function showModal(name, age) {
+            $('#name').text(name);
+            $('#age').val(age);
+            $('#exampleModal').modal('show');
+        }
+    </script>
+</head>
+<body>
+<ul id="wrap">
+</ul>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 id="name"></h5>
+                <input type="text" id="age">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="POST" action="{% url 'single_collection' %}">
+ {% csrf_token %}
+ <div class="modal-body form-horizontal">
+    <div class="form-group">
+      <label for="inputSQAID" class="col-sm-3 control-label">SQA Name</label>
+      <div class="col-sm-8">
+       <input type="hidden" name="sqa_name" id="sqa_name" value="{{ collectionlist.sqa_name }}">
+      </div>
+     </div>
+      <div class="form-group">
+        <label for="fromdate2" class="col-sm-3 control-label">From:</label>
+        <div class="col-sm-8">
+        <input type="date" class="form-control" name="fromdate2" id="fromdate2" max="{% now 'Y-m-d' %}" required>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary pull-left" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-success" name="s_dl" id="s_dl" onclick="single_c()">Download</button>
+  </div>
+</form>
+
+<script type="text/javascript">
+    function single_c(){
+        var dates2 = document.getElementById('fromdate2').value;
+        document.write(dates2)
+    }
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

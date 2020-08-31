@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Hello, world!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url("https://previews.123rf.com/images/draganae/draganae1612/draganae161200392/71426772-%EB%B2%88%EA%B0%9C-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EB%B2%A1%ED%84%B0.jpg");
+            background-position: center;
+            background-size: 100% 100%;
+        }
+
+        .site_title {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .card {
+            width: 45rem;
+            height: 35rem;
+            margin: 35px auto;
+        }
+
+        .form-control {
+            width: 380px;
+            margin: 20px;
+        }
+
+        .form_one {
+            display: flex;
+
+        }
+
+        .a {
+            width: 800px;
+        }
+
+        .form_two {
+            display: flex;
+        }
+
+        .b {
+            width: 650px;
+        }
+
+        .input-box {
+            display: flex;
+            padding-left: 19px;
+
+
+        }
+
+        .keyword {
+            width: 200px;
+            margin-top: auto;
+            margin-left: 0px;
+        }
+
+        .box {
+            width: 150px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            width: 100px;
+            display: block;
+            margin: 12px auto auto auto;
+        }
+    </style>
+
+    <script>
+
+        function meeting() {
+            let title = $('#title').val()
+            let number = $('#number').val()
+            let place = $('#place').val()
+            let time = $('#time').val()
+            let desc = $('#desc').val()
+            let todo = $('#todo').val()
+            let keyword = $('#keyword').val()
+
+
+            if (title == '') {
+                alert('제목을 입력해주세요')
+                $('#title').focus()
+                return
+            } else if (number == '') {
+                alert('비밀번호를 입력해주세요')
+                $('#number').focus()
+                return;
+            } else if (place == '') {
+                alert('장소를 입력해주세요')
+                $('#place').focus()
+                return
+            } else if (time == '') {
+                alert('날짜와 시간을 입력해주세요')
+                $('#time').focus()
+                return
+
+
+                // var datetime = /[0-9]{4}-[0-9]{2}-[0-9]{2})/;
+                // if (!datetime.test($('.member-person-birthday').val())) {
+                //     alert("날짜는 yyyy-mm-dd 형식으로 입력해주세요.");
+                //     return false;
+
+            } else if (desc == '') {
+                alert('설명을 입력해주세요')
+                $('#desc').focus()
+                return
+            } else if (todo == '') {
+                alert('준비물/할 일을 입력해주세요')
+                $('#todo').focus()
+                return
+                // } else if ($('#box').is(':checked') == false) {
+                //     alert('유형을 선택해주세요')
+                //     return
+            } else if (keyword == '') {
+                alert('키워드를 입력해주세요')
+                $('#keyword').focus()
+                return
+            }
+            $.ajax({
+                type: "POST",
+                url: "/meeting",
+                data: {
+                    'title_give': title,
+                    'number_give': number,
+                    'place_give': place,
+                    'time_give': time,
+                    'desc_give': desc,
+                    'todo_give': todo,
+                    'keyword_give': keyword
+                },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert(response["msg"]);
+                        // window.location.reload();
+                        location.href = '/';
+                    }
+                }
+            })
+        }
+
+
+    </script>
+
+
+</head>
+<body>
+<h1 class="site_title">땡땡땡 대학 번개 모임</h1>
+<div class="card">
+    <div class="form_one">
+        <input type="text" class="form-control a" id="title" placeholder="제목을 입력해 주세요.">
+        <input type="password" class="form-control" id="number" placeholder="비밀번호를 입력해주세요">
+    </div>
+    <div class="form_two">
+        <input type="text" class="form-control b" id="place" placeholder="장소를 입력해 주세요.">
+        <input type="text" class="form-control" id="time" placeholder="날짜와 시간을 입력해 주세요.">
+    </div>
+    <div class="input-group">
+        <textarea class="form-control" cols="30" rows="2" id="desc" placeholder="설명글을 입력해 주세요."></textarea>
+    </div>
+    <div class="input-group mb-3">
+        <textarea class="form-control" cols="30" rows="5" id="todo" placeholder="준비물, 할 일을 입력해 주세요."></textarea>
+    </div>
+    <div class="input-box" style="margin-top: 10px">
+
+<!--        <p class="radios" style="margin-top: 7px">-->
+<!--            <label><input type="radio" id="men" name="trans" value="공부" checked>공부</label>-->
+<!--            <label><input type="radio" name="trans" value="친목">친목</label>-->
+<!--        </p>-->
+
+        <input id="keyword" type="email" class="form-control keyword" placeholder="키워드를 입력해 주세요.">
+    </div>
+
+    <button onclick="meeting()" type="button" class="btn btn-primary">작성 완료</button>
+
+</div>
+
+
+<!--    // $("input:radio[name='trans']:radio[value='남자']").prop('checked', true);-->
+<!--    // $("input:radio[name='trans']:radio[value='남자']").prop('checked', false);-->
+<!--    // ("#men").attr('checked', true);-->
+
+
+
+</body>
+</html>
+
