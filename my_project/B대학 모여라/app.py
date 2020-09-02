@@ -54,7 +54,7 @@ def meeeting():
 
     db.meeting.insert_one(doc)
 
-    return jsonify({'result': 'success', 'msg': '작성 완'})
+    return jsonify({'result': 'success', 'msg': '작성 완료'})
 
 
 @app.route('/meeting', methods=['GET'])
@@ -65,10 +65,22 @@ def meeting_desc():
 
 @app.route('/api/delete', methods=['POST'])
 def meeting_delete():
-    id_receive = request.form['id']
-    print('delete', id_receive)
-    db.mystar.delete_one({'name': id_receive})
-    return jsonify({'result': 'success', 'msg': 'delete 연결되었습니다!'})
+    id = request.form['id']
+    pw = request.form['pw']
+    db.meeting.delete_one({'id': id, 'pw': pw})
+    print(id, pw)
+    return jsonify({'result': 'success', 'msg': 'delete 완료!'})
+
+
+@app.route('/api/modify', methods=['POST'])
+def meeting_modify():
+    # 수정된 글 정보를 입력받음
+    id = request.form['id']
+    pw = request.form['pw']
+    # 비밀번호도 입력받아야함
+
+    # db.meeting.update_one({'id': id, 'number': pw}, {'$set': {}})
+    return
 
 
 @app.route('/api/auth', methods=['POST'])
@@ -76,8 +88,13 @@ def meeting_auth():
     id = request.form['id']
     pw = request.form['pw']
     # id와 pw가 일치하는 meeting이 있는지 확인
-    # 일치하는 경우 return success
-    # 일치하지 않는 경우 return fail
+    meeting = db.meeting.find_one({'id': int(id), 'number': pw})
+    if meeting is None:
+        # 일치하지 않는 경우 return fail
+        return jsonify({'result': 'fail'})
+    else:
+        # 일치하는 경우 return success
+        return jsonify({'result': 'success'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
