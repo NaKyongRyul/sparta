@@ -133,15 +133,30 @@
                     'id': id,
                     'pw': pw,
                 },
-                success: function(res) {
-                    if (res['result'] === 'success') {
+                success: function(response) {
+                    if (response['result'] === 'success') {
                         // 삭제 요청 및 새로고침
+                        $.ajax({
+                            type: 'POST',
+                            url: '/api/delete',
+                            data: {
+                                'id': id,
+                                'pw': pw
+                            },
+                            success: function (response) {
+                                if (response['result'] === 'success') {
+                                    let msg = response['msg']
+                                    alert(msg)
+                                    window.location.reload()
+                                } else {
+                                    alert('비밀번호가 일치하지 않습니다.')
+                                }
+                            }
+                        })
 
-                        // let msg = res['msg']
-                        // alert(msg)
-                        // window.location.reload()
-                    } else {
-                        alert('비밀번호가 일치하지 않습니다.');
+                        // } else {
+                        //     alert('비밀번호가 일치하지 않습니다.');
+                        // }
                     }
                 }
             });
@@ -161,6 +176,7 @@
                 success: function(res) {
                     if (res['result'] === 'success') {
                         // 수정페이지로 이동
+                        window.location.href = '/detail/${id}'
                     } else {
                         alert('비밀번호가 일치하지 않습니다.');
                     }

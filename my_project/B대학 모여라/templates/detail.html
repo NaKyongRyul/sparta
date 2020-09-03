@@ -158,6 +158,24 @@
             })
         }
 
+         function meeting(id) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/modify',
+                data: {
+                    'id': id
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let msg = response['msg'];
+                        alert(msg);
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+
 
     </script>
 

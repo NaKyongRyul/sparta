@@ -67,9 +67,9 @@ def meeting_desc():
 def meeting_delete():
     id = request.form['id']
     pw = request.form['pw']
-    db.meeting.delete_one({'id': id, 'pw': pw})
+    db.meeting.delete_one({'id': int(id), 'pw': pw})
     print(id, pw)
-    return jsonify({'result': 'success', 'msg': 'delete 완료!'})
+    return jsonify({'result': 'success', 'msg': '모임이 삭제되었습니다.'})
 
 
 @app.route('/api/modify', methods=['POST'])
@@ -79,7 +79,7 @@ def meeting_modify():
     pw = request.form['pw']
     # 비밀번호도 입력받아야함
 
-    # db.meeting.update_one({'id': id, 'number': pw}, {'$set': {}})
+    db.meeting.update_one({'id': id, 'number': pw}, {'$set': {}})
     return
 
 
