@@ -89,7 +89,7 @@
 
         function meeting() {
             let title = $('#title').val()
-            let number = $('#number').val()
+            let pw = $('#pw').val()
             let place = $('#place').val()
             let time = $('#time').val()
             let desc = $('#desc').val()
@@ -101,9 +101,9 @@
                 alert('제목을 입력해주세요')
                 $('#title').focus()
                 return
-            } else if (number == '') {
+            } else if (pw == '') {
                 alert('비밀번호를 입력해주세요')
-                $('#number').focus()
+                $('#pw').focus()
                 return;
             } else if (place == '') {
                 alert('장소를 입력해주세요')
@@ -141,7 +141,7 @@
                 url: "/meeting",
                 data: {
                     'title_give': title,
-                    'number_give': number,
+                    'pw_give': pw,
                     'place_give': place,
                     'time_give': time,
                     'desc_give': desc,
@@ -151,7 +151,6 @@
                 success: function (response) {
                     if (response["result"] == "success") {
                         alert(response["msg"]);
-                        // window.location.reload();
                         location.href = '/';
                     }
                 }
@@ -168,7 +167,7 @@
 <div class="card">
     <div class="form_one">
         <input type="text" class="form-control a" id="title" placeholder="제목을 입력해 주세요.">
-        <input type="password" class="form-control" id="number" placeholder="비밀번호를 입력해주세요">
+        <input type="password" class="form-control" id="pw" placeholder="비밀번호를 입력해주세요">
     </div>
     <div class="form_two">
         <input type="text" class="form-control b" id="place" placeholder="장소를 입력해 주세요.">

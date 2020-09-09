@@ -88,8 +88,9 @@
     <script>
 
         function meeting() {
+            let id = $('#id').val()
             let title = $('#title').val()
-            let number = $('#number').val()
+            let pw = $('#pw').val()
             let place = $('#place').val()
             let time = $('#time').val()
             let desc = $('#desc').val()
@@ -101,9 +102,9 @@
                 alert('제목을 입력해주세요')
                 $('#title').focus()
                 return
-            } else if (number == '') {
+            } else if (pw == '') {
                 alert('비밀번호를 입력해주세요')
-                $('#number').focus()
+                $('#pw').focus()
                 return;
             } else if (place == '') {
                 alert('장소를 입력해주세요')
@@ -138,10 +139,11 @@
             }
             $.ajax({
                 type: "POST",
-                url: "/meeting",
+                url: "/api/modify",
                 data: {
+                    'id': id,
                     'title_give': title,
-                    'number_give': number,
+                    'pw_give': pw,
                     'place_give': place,
                     'time_give': time,
                     'desc_give': desc,
@@ -151,30 +153,29 @@
                 success: function (response) {
                     if (response["result"] == "success") {
                         alert(response["msg"]);
-                        // window.location.reload();
                        location.href = '/';
                     }
                 }
             })
         }
 
-         function meeting(id) {
-
-            $.ajax({
-                type: 'POST',
-                url: '/api/modify',
-                data: {
-                    'id': id
-                },
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        let msg = response['msg'];
-                        alert(msg);
-                        window.location.reload()
-                    }
-                }
-            });
-        }
+        //  function meeting(id) {
+        //
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '/api/modify',
+        //         data: {
+        //             'id': id
+        //         },
+        //         success: function (response) {
+        //             if (response['result'] == 'success') {
+        //                 let msg = response['msg'];
+        //                 alert(msg);
+        //                 window.location.reload()
+        //             }
+        //         }
+        //     });
+        // }
 
 
     </script>
@@ -184,10 +185,11 @@
 <body>
 <h1 class="site_title">땡땡땡 대학 번개 모임 수정!</h1>
 {{meeting}}
+<div id="id" style="visibility: hidden"></div>
 <div class="card">
     <div class="form_one">
         <input type="email" class="form-control a" id="title" placeholder="제목을 입력해 주세요." value="{{meeting['title']}}">
-        <input type="password" class="form-control" id="number" placeholder="비밀번호를 입력해주세요" value="{{meeting['number']}}">
+        <input type="password" class="form-control" id="pw" placeholder="비밀번호를 입력해주세요" value="{{meeting['pw']}}">
     </div>
     <div class="form_two">
         <input type="email" class="form-control b" id="place" placeholder="장소를 입력해 주세요." value="{{meeting['place']}}">

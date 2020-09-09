@@ -87,7 +87,6 @@
                         let meetings = response["all_meetings"]
                         for (let i = 0; i < meetings.length; i++) {
                             let title = meetings[i]['title']
-                            let number = meetings[i]['number']
                             let place = meetings[i]['place']
                             let time = meetings[i]['time']
                             let desc = meetings[i]['desc']
@@ -153,10 +152,6 @@
                                 }
                             }
                         })
-
-                        // } else {
-                        //     alert('비밀번호가 일치하지 않습니다.');
-                        // }
                     }
                 }
             });
@@ -176,7 +171,7 @@
                 success: function(res) {
                     if (res['result'] === 'success') {
                         // 수정페이지로 이동
-                        window.location.href = '/detail/${id}'
+                        window.location.href = `/detail/${id}`
                     } else {
                         alert('비밀번호가 일치하지 않습니다.');
                     }
