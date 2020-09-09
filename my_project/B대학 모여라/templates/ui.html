@@ -62,9 +62,12 @@
         }
 
         body {
-            background-image: url("https://previews.123rf.com/images/draganae/draganae1612/draganae161200392/71426772-%EB%B2%88%EA%B0%9C-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EB%B2%A1%ED%84%B0.jpg");
+            /*background-image: url("https://previews.123rf.com/images/draganae/draganae1612/draganae161200392/71426772-%EB%B2%88%EA%B0%9C-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9E%85%EB%8B%88%EB%8B%A4-%EB%B2%A1%ED%84%B0.jpg");*/
+            /*background-position: center;*/
+            /*background-size: 100% 100%;*/
+            background-image: url('https://i.imgur.com/eXFQpCx.jpg');
             background-position: center;
-            background-size: 100% 100%;
+            background-size: 100% 112%
         }
 
 
@@ -96,7 +99,7 @@
                             let temp_html = `<div class="card" style="width: 18rem;">
                                                 <div class="card-body">
                                                     <h5 id="time" class="card-title">${time} <span id="keyword" class="key">#${keyword}</span></h5>
-                                                    <h6 style="margin-top: 20px" id="place" class="card-subtitle mb-2 text-muted">장소:${place}</h6>
+                                                    <h6 style="margin-top: 20px" id="place" class="card-subtitle mb-2 text-muted">${place}</h6>
                                                     <p style="margin-top: 18px" id="title" class="card-text">${title}</p>
                                                     <p  id="desc">${desc}</p>
                                                     <button onclick="showModal('${id}', '${title}', '${place}', '${time}', '${keyword}', '${todo}', '${desc}')" type="button" class="btn detail" data-toggle="modal" data-target="#test" data-meeting="${meetings[i]}">+</button>
@@ -185,7 +188,7 @@
 <body>
 
 
-<h1 class="site_title">땡땡땡 대학 번개 모임</h1>
+<h1 class="site_title">스파르타 대학 모여라</h1>
 <div id="cards" class="cards">
 
 

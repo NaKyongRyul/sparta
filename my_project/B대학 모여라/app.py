@@ -98,7 +98,7 @@ def meeting_modify():
             'keyword': keyword_receive
         }
 
-        db.meeting.update_one({'id': id}, {'$set': newDoc})
+        db.meeting.update_one({'id': int(id)}, {'$set': newDoc})
         return jsonify({'result': 'success', 'msg': '수정이 완료되었습니다.'})
 
     else:
