@@ -73,7 +73,6 @@ def meeting_delete():
 
 @app.route('/api/modify', methods=['POST'])
 def meeting_modify():
-
     # 수정된 글 정보를 입력받음
     id = request.form['id']
     # 비밀번호도 입력받아야함
@@ -86,8 +85,8 @@ def meeting_modify():
     keyword_receive = request.form['keyword_give']
 
     meetings = db.meeting.find_one({'id': int(id), 'pw': pw_receive})
-
     if meetings is not None:
+        # 아이디와 비밀번호가 일치하는 미팅이 존재하는 경우 (인증완료)
         newDoc = {
             'title': title_receive,
             'pw': pw_receive,
@@ -98,16 +97,11 @@ def meeting_modify():
             'keyword': keyword_receive
         }
 
-        db.meeting.update_one({'id': id}, {'$set': newDoc})
+        db.meeting.update_one({'id': int(id)}, {'$set': newDoc})
         return jsonify({'result': 'success', 'msg': '수정이 완료되었습니다.'})
-
     else:
+        # 아이디와 비밀번호가 일치하는 미팅이 존재하지 않는 경우
         return jsonify({'result': 'fail', 'msg': '비밀번호가 일치하지 않습니다.'})
-
-
-
-
-
 
 
 @app.route('/api/auth', methods=['POST'])
@@ -122,6 +116,7 @@ def meeting_auth():
     else:
         # 일치하는 경우 return success
         return jsonify({'result': 'success'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

@@ -151,11 +151,11 @@
                     'keyword_give': keyword
                 },
                 success: function (response) {
-                    if (response["result"] == "success") {
+                    if (response["result"] === "success") {
                         alert(response["msg"]);
-                       location.href = '/';
+                        location.href = '/';
                     } else {
-                        alert(response['msg'])
+                        alert(response["msg"]);
                     }
                 }
             })
@@ -198,20 +198,21 @@
         <input type="email" class="form-control" id="time" placeholder="날짜와 시간을 입력해 주세요." value="{{meeting['time']}}">
     </div>
     <div class="input-group">
-        <textarea class="form-control" cols="30" rows="2" id="desc" placeholder="설명글을 입력해 주세요">{{meeting['desc']}}</textarea>
+        <textarea class="form-control" cols="30" rows="2" id="desc"
+                  placeholder="설명글을 입력해 주세요">{{meeting['desc']}}</textarea>
     </div>
     <div class="input-group mb-3">
-        <textarea class="form-control" cols="30" rows="5" id="todo" placeholder="준비물, 할 일을 입력해 주세요.">{{meeting['todo']}}</textarea>
+        <textarea class="form-control" cols="30" rows="5" id="todo"
+                  placeholder="준비물, 할 일을 입력해 주세요.">{{meeting['todo']}}</textarea>
     </div>
     <div class="input-box" style="margin-top: 10px">
 
-        <input id="keyword" type="email" class="form-control keyword" placeholder="키워드를 입력해 주세요." value="{{meeting['keyword']}}">
+        <input id="keyword" type="email" class="form-control keyword" placeholder="키워드를 입력해 주세요."
+               value="{{meeting['keyword']}}">
     </div>
 
     <button onclick="meeting()" type="button" class="btn btn-primary">수정 완료</button>
 
 
-
 </body>
 </html>
-
